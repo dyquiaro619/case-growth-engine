@@ -1,6 +1,7 @@
 import { useState } from "react";
-import { X, ArrowRight, CheckCircle } from "lucide-react";
+import { X, ArrowRight, CheckCircle, Loader2 } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { toast } from "@/hooks/use-toast";
 
 interface LeadCaptureModalProps {
   isOpen: boolean;
@@ -24,11 +25,59 @@ export function LeadCaptureModal({
     phone: "",
   });
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const formatCurrencyForEmail = (value: number) => {
+    return new Intl.NumberFormat("en-US", {
+      style: "currency",
+      currency: "USD",
+      minimumFractionDigits: 0,
+      maximumFractionDigits: 0,
+    }).format(value);
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // Simulate form submission
-    setIsSubmitted(true);
+    setIsSubmitting(true);
+
+    try {
+      const response = await fetch("https://api.web3forms.com/submit", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          access_key: "41221ddd-811f-4f09-9a47-7123357960a5",
+          subject: `New ROI Calculator Lead: ${formData.firmName}`,
+          from_name: "ROI Calculator",
+          to: "info@automationlegal.com",
+          name: formData.name,
+          email: formData.email,
+          firm_name: formData.firmName,
+          phone: formData.phone || "Not provided",
+          additional_revenue: formatCurrencyForEmail(metrics.additionalRevenue),
+          hours_saved: `${metrics.hoursSaved} hours/month`,
+          roi_multiple: `${metrics.roiMultiple.toFixed(1)}x`,
+        }),
+      });
+
+      const result = await response.json();
+
+      if (result.success) {
+        setIsSubmitted(true);
+      } else {
+        throw new Error(result.message || "Submission failed");
+      }
+    } catch (error) {
+      console.error("Form submission error:", error);
+      toast({
+        title: "Submission Failed",
+        description: "Please try again or contact us directly.",
+        variant: "destructive",
+      });
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const formatCurrency = (value: number) => {
@@ -157,10 +206,20 @@ export function LeadCaptureModal({
               </div>
               <button
                 type="submit"
-                className="group mt-2 flex w-full items-center justify-center gap-2 rounded-xl bg-primary px-6 py-3.5 text-base font-semibold text-primary-foreground transition-all hover:bg-primary/90 hover:shadow-lg"
+                disabled={isSubmitting}
+                className="group mt-2 flex w-full items-center justify-center gap-2 rounded-xl bg-primary px-6 py-3.5 text-base font-semibold text-primary-foreground transition-all hover:bg-primary/90 hover:shadow-lg disabled:opacity-70"
               >
-                Generate My Roadmap
-                <ArrowRight className="h-5 w-5 transition-transform group-hover:translate-x-1" />
+                {isSubmitting ? (
+                  <>
+                    <Loader2 className="h-5 w-5 animate-spin" />
+                    Submitting...
+                  </>
+                ) : (
+                  <>
+                    Generate My Roadmap
+                    <ArrowRight className="h-5 w-5 transition-transform group-hover:translate-x-1" />
+                  </>
+                )}
               </button>
             </form>
           </>
