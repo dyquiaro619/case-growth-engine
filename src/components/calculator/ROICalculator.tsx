@@ -11,7 +11,9 @@ import {
   ArrowRight,
   Info,
   Scale,
+  Download,
 } from "lucide-react";
+import { generatePDFReport } from "./generatePDFReport";
 
 export function ROICalculator() {
   const [monthlyLeads, setMonthlyLeads] = useState(100);
@@ -84,6 +86,20 @@ export function ROICalculator() {
   const formatNumber = (value: number) => Math.round(value).toLocaleString();
   const formatHours = (value: number) => `${Math.round(value)} hrs`;
 
+  const handleExportPDF = () => {
+    generatePDFReport({
+      inputs: {
+        monthlyLeads,
+        conversionRate,
+        avgSettlement,
+        adminHours,
+      },
+      current: calculations.current,
+      projected: calculations.projected,
+      impact: calculations.impact,
+    });
+  };
+
   return (
     <div className="min-h-screen bg-background">
       {/* Header */}
@@ -103,16 +119,25 @@ export function ROICalculator() {
                 </p>
               </div>
             </div>
-            <div className="group relative hidden md:block">
-              <button className="flex items-center gap-1.5 rounded-full bg-muted px-4 py-2 text-sm font-medium text-muted-foreground transition-colors hover:bg-muted/80">
-                <Info className="h-4 w-4" />
-                PI Firm Benchmark
+            <div className="flex items-center gap-3">
+              <button
+                onClick={handleExportPDF}
+                className="flex items-center gap-1.5 rounded-full bg-primary/10 px-4 py-2 text-sm font-medium text-primary transition-colors hover:bg-primary/20"
+              >
+                <Download className="h-4 w-4" />
+                Export PDF
               </button>
-              <div className="invisible absolute right-0 top-full z-50 mt-2 w-72 rounded-xl border border-border bg-popover p-4 text-sm text-popover-foreground opacity-0 shadow-xl transition-all duration-200 group-hover:visible group-hover:opacity-100">
-                <p className="font-medium text-foreground mb-1">Industry Insight</p>
-                <p className="text-muted-foreground">
-                  Firms with automated intake respond <span className="font-semibold text-success">98% faster</span> than manual competitors, dramatically increasing lead-to-client conversion.
-                </p>
+              <div className="group relative hidden md:block">
+                <button className="flex items-center gap-1.5 rounded-full bg-muted px-4 py-2 text-sm font-medium text-muted-foreground transition-colors hover:bg-muted/80">
+                  <Info className="h-4 w-4" />
+                  PI Firm Benchmark
+                </button>
+                <div className="invisible absolute right-0 top-full z-50 mt-2 w-72 rounded-xl border border-border bg-popover p-4 text-sm text-popover-foreground opacity-0 shadow-xl transition-all duration-200 group-hover:visible group-hover:opacity-100">
+                  <p className="font-medium text-foreground mb-1">Industry Insight</p>
+                  <p className="text-muted-foreground">
+                    Firms with automated intake respond <span className="font-semibold text-success">98% faster</span> than manual competitors, dramatically increasing lead-to-client conversion.
+                  </p>
+                </div>
               </div>
             </div>
           </div>
