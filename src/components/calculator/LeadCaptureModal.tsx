@@ -131,7 +131,7 @@ export function LeadCaptureModal({
               <div className="text-center border-x border-border">
                 <p className="text-xs text-muted-foreground">Hours Saved</p>
                 <p className="text-lg font-bold text-primary">
-                  {metrics.hoursSaved}/mo
+                  {metrics.hoursSaved.toFixed(1)}/mo
                 </p>
               </div>
               <div className="text-center">
