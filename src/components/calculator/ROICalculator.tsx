@@ -128,7 +128,7 @@ export function ROICalculator() {
                 Export PDF
               </button>
               <div className="group relative hidden md:block">
-                <button className="flex items-center gap-1.5 rounded-full bg-muted px-4 py-2 text-sm font-medium text-muted-foreground transition-colors hover:bg-muted/80">
+                <button className="flex items-center gap-1.5 rounded-full bg-primary/10 px-4 py-2 text-sm font-medium text-primary transition-colors hover:bg-primary/20">
                   <Info className="h-4 w-4" />
                   PI Firm Benchmark
                 </button>
