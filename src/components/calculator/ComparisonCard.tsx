@@ -1,20 +1,25 @@
 import { cn } from "@/lib/utils";
 import { TrendingUp, ArrowRight } from "lucide-react";
+import { AnimatedValue } from "./AnimatedValue";
 
 interface ComparisonCardProps {
   title: string;
-  currentValue: string;
-  projectedValue: string;
+  currentValue: number;
+  projectedValue: number;
+  formatter: (value: number) => string;
   improvement?: string;
   className?: string;
+  decimals?: number;
 }
 
 export function ComparisonCard({
   title,
   currentValue,
   projectedValue,
+  formatter,
   improvement,
   className,
+  decimals = 0,
 }: ComparisonCardProps) {
   return (
     <div className={cn("card-elevated p-6", className)}>
@@ -27,9 +32,12 @@ export function ComparisonCard({
           <span className="comparison-badge comparison-badge-current mb-2">
             Current
           </span>
-          <p className="text-2xl md:text-3xl font-bold text-foreground mt-2">
-            {currentValue}
-          </p>
+          <AnimatedValue
+            value={currentValue}
+            formatter={formatter}
+            decimals={decimals}
+            className="text-2xl md:text-3xl font-bold text-foreground mt-2 block"
+          />
         </div>
 
         {/* Arrow */}
@@ -43,9 +51,12 @@ export function ComparisonCard({
             <TrendingUp className="h-3.5 w-3.5" />
             Projected
           </span>
-          <p className="text-2xl md:text-3xl font-bold text-success mt-2">
-            {projectedValue}
-          </p>
+          <AnimatedValue
+            value={projectedValue}
+            formatter={formatter}
+            decimals={decimals}
+            className="text-2xl md:text-3xl font-bold text-success mt-2 block"
+          />
           {improvement && (
             <p className="text-sm font-medium text-success mt-1">
               {improvement}

@@ -196,24 +196,28 @@ export function ROICalculator() {
             <div className="grid gap-4 sm:grid-cols-3">
               <MetricCard
                 title="Additional Annual Revenue"
-                value={formatCurrency(calculations.impact.additionalRevenue)}
+                value={calculations.impact.additionalRevenue}
+                formatter={formatCurrency}
                 subtitle="From improved conversion"
                 icon={DollarSign}
                 variant="success"
               />
               <MetricCard
                 title="Hours Reclaimed"
-                value={formatHours(calculations.impact.hoursSaved)}
+                value={calculations.impact.hoursSaved}
+                formatter={formatHours}
                 subtitle="Saved monthly on admin"
                 icon={Clock}
                 variant="primary"
               />
               <MetricCard
                 title="ROI Multiple"
-                value={`${calculations.impact.roiMultiple.toFixed(1)}x`}
+                value={calculations.impact.roiMultiple}
+                formatter={(v) => `${v.toFixed(1)}x`}
                 subtitle="Return on investment"
                 icon={TrendingUp}
                 variant="accent"
+                decimals={1}
               />
             </div>
 
@@ -225,29 +229,35 @@ export function ROICalculator() {
               
               <ComparisonCard
                 title="Monthly Signed Cases"
-                currentValue={calculations.current.cases.toFixed(1)}
-                projectedValue={calculations.projected.cases.toFixed(1)}
+                currentValue={calculations.current.cases}
+                projectedValue={calculations.projected.cases}
+                formatter={(v) => v.toFixed(1)}
                 improvement={`+${calculations.impact.casesAdded.toFixed(1)} cases/mo`}
+                decimals={1}
               />
               
               <ComparisonCard
                 title="Annual Revenue (33% Contingency)"
-                currentValue={formatCurrency(calculations.current.annualRevenue)}
-                projectedValue={formatCurrency(calculations.projected.annualRevenue)}
+                currentValue={calculations.current.annualRevenue}
+                projectedValue={calculations.projected.annualRevenue}
+                formatter={formatCurrency}
                 improvement={`+${formatCurrency(calculations.impact.additionalRevenue)}`}
               />
               
               <ComparisonCard
                 title="Conversion Rate"
-                currentValue={formatPercent(calculations.current.conversionRate)}
-                projectedValue={formatPercent(calculations.projected.conversionRate)}
+                currentValue={calculations.current.conversionRate}
+                projectedValue={calculations.projected.conversionRate}
+                formatter={formatPercent}
                 improvement="+20% lift"
+                decimals={1}
               />
               
               <ComparisonCard
                 title="Monthly Admin Hours"
-                currentValue={formatHours(calculations.current.adminHours)}
-                projectedValue={formatHours(calculations.projected.adminHours)}
+                currentValue={calculations.current.adminHours}
+                projectedValue={calculations.projected.adminHours}
+                formatter={formatHours}
                 improvement="70% reduction"
               />
             </div>

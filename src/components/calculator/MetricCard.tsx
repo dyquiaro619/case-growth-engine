@@ -1,22 +1,27 @@
 import { cn } from "@/lib/utils";
 import { LucideIcon } from "lucide-react";
+import { AnimatedValue } from "./AnimatedValue";
 
 interface MetricCardProps {
   title: string;
-  value: string;
+  value: number;
+  formatter: (value: number) => string;
   subtitle?: string;
   icon: LucideIcon;
   variant?: "default" | "primary" | "success" | "accent";
   className?: string;
+  decimals?: number;
 }
 
 export function MetricCard({
   title,
   value,
+  formatter,
   subtitle,
   icon: Icon,
   variant = "default",
   className,
+  decimals = 0,
 }: MetricCardProps) {
   const variants = {
     default: "bg-card border-border/50",
@@ -50,15 +55,16 @@ export function MetricCard({
           >
             {title}
           </p>
-          <p
+          <AnimatedValue
+            value={value}
+            formatter={formatter}
+            decimals={decimals}
             className={cn(
-              "stat-highlight",
+              "stat-highlight block",
               variant === "primary" ? "text-primary-foreground" : "",
               variant === "success" ? "text-success" : ""
             )}
-          >
-            {value}
-          </p>
+          />
           {subtitle && (
             <p
               className={cn(
