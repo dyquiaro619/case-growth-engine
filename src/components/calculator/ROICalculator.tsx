@@ -148,7 +148,7 @@ export function ROICalculator() {
         {/* Page Title */}
         <div className="mb-10 text-center">
           <h2 className="heading-display text-3xl md:text-4xl lg:text-5xl font-bold text-foreground mb-4">
-            See How Automation Grows Your Bottom Line
+            Stop the Intake Leak: Calculate How Much Revenue You're Losing to Faster Competitors Every Month
           </h2>
           <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
             Adjust the sliders below to match your firm's metrics and discover
