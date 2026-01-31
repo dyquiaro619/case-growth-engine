@@ -151,8 +151,7 @@ export function ROICalculator() {
             Stop the Intake Leak: Calculate How Much Revenue You're Losing to Faster Competitors Every Month
           </h2>
           <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-            Adjust the sliders below to match your firm's metrics and discover
-            the revenue impact of automation—without increasing your marketing spend.
+            Boutique PI firms are using this tool to identify an average of $190k+ in missed revenue. Adjust the sliders to find yours.
           </p>
         </div>
 
